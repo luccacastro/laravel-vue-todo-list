@@ -1,66 +1,105 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Task List Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Problem Description
 
-## About Laravel
+The Task List Application enables users to manage tasks by creating, updating, marking as complete, and deleting them. Each user has a private space for managing tasks, with authentication and permissions ensuring secure access.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Stack and Tools
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Laravel 10.10
+- Vue.js with Inertia.js for SPA functionality
+- MySQL
+- TailwindCSS
+- Laravel Jetstream for authentication
+- Vue Toastification for notifications
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Project Structure
 
-## Learning Laravel
+This application separates concerns between a Laravel backend and a Vue.js frontend, using Inertia.js for seamless SPA interactions. **Vuex** is used for centralized state management, while **Vue Toastification** provides notifications for user actions.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Backend
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **TaskController**: Manages all task actions:
+  - **index**: Lists all tasks for the authenticated user.
+  - **store**: Creates a new task.
+  - **markComplete**: Marks a task as complete.
+  - **destroy**: Deletes a task if authorized.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+To ensure data integrity and security, only the owner of a task can modify it. The `markComplete` and `destroy` actions enforce this requirement.
 
-## Laravel Sponsors
+### Frontend
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+The frontend includes structured components organized within **TaskPage**:
 
-### Premium Partners
+- **TaskPage**: The main page displaying all task management functionality.
+- **TaskList**: Renders the list of tasks from the backend and updates on task actions.
+- **TaskItem**: Displays individual task details with options to mark as complete or delete.
+- **TaskForm**: Allows users to create new tasks with a title and optional description.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+**Vuex** manages task state through a centralized **task store** where core logic and requests are handled, including task creation, deletion, and updates. **Vue Toastification** provides feedback for actions, improving the user experience with clear, non-intrusive notifications.
 
-## Contributing
+## Requirements
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- PHP >= 8.0
+- Composer
+- Node.js and npm
+- MySQL
 
-## Code of Conduct
+## Installation and Setup
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. **Clone the Repository**:
 
-## Security Vulnerabilities
+   ```bash
+   git clone https://github.com/your-username/task-list-app.git
+   cd task-list-app
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. **Install Dependencies**:
 
-## License
+   ```bash
+   composer install
+   npm install
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. **Environment Setup**:
+
+   - Copy `.env.example` to `.env`
+   - Update database settings:
+     ```env
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=your_database_name
+     DB_USERNAME=your_database_user
+     DB_PASSWORD=your_database_password
+     ```
+
+4. **Run Migrations**:
+
+   ```bash
+   php artisan migrate
+   ```
+
+5. **Run the Application**:
+
+   ```bash
+   php artisan serve
+   npm run dev
+   ```
+
+Visit the app at `http://localhost:8000`.
+
+## Running Tests
+
+To run the tests for the application, including tests for the TaskController, use the following command:
+
+```bash
+php artisan test
+```
+
+To run only the TaskController tests with a filter, use the command:
+
+```bash
+php artisan test --filter=TaskControllerTest
+```
+
