@@ -87,6 +87,18 @@ The frontend includes structured components organized within **TaskPage**:
    npm run dev
    ```
 
+5. **Run the Database Seeder:**:
+
+   - Run the following command to seed the database with a default user:
+
+   ```bash
+   php artisan db:seed --class=UserSeeder
+   ```
+   The seeded user credentials are:
+
+    - Email: test@example.com
+    - Password: password
+
 Visit the app at `http://localhost:8000`.
 
 ## Running Tests
